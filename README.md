@@ -2,17 +2,11 @@
 
 ## Development
 
-1. Install dependencies
+1. Orchestrate the app containers
 
 ```
-$ pip install -r requirements.txt
+$ docker-compose down && docker-compose up
 ```
 
-2. Run the API's HTTP server
-
-```
-$ python api.py
-```
-
-3. Open the browser at https://localhost:1337/new/<username>
+2. Open the browser at https://localhost:8000
 

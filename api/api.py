@@ -7,7 +7,7 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 
-client = MongoClient()
+client = MongoClient('mongo', 27017)
 db = client.test_database
 
 tweets = db.tweets
