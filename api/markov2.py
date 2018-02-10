@@ -19,10 +19,10 @@ def train(data, input_model = collections.defaultdict(dict)):
             model[data[i-2]][data[i-1]] = [element]
     return model
 
-def generate(model, length = 5):
+def generate(model, length = 5, fword = "I", sword = "am"):
     generated_data = []
-    fword = "I"
-    sword = "am"
+    generated_data.append(fword)
+    generated_data.append(sword)
     for i in range(length):
         potential_words = model[fword][sword]
 
@@ -39,10 +39,10 @@ def generate(model, length = 5):
 
 if __name__ == '__main__':
     T = tokenizer.TweetTokenizer()
-    tweets = scrape.scrape("realDonaldTrump")
-
-    mc = train([])
     i = 0;
+    mc = train([])
+    tweets = scrape.scrape("BarackObama")
+
     for t in tweets:
         tokens = T.tokenize(t['full_text'])
         mc = train(tokens, mc)
@@ -55,5 +55,19 @@ if __name__ == '__main__':
     with open('data.txt', 'r') as f:
         mc = json.load(f)
 
-    #print(mc)
-    print(generate(mc, 100))
+    ri = random.randint(0, len(tweets)-1)
+    tokens = T.tokenize(tweets[ri]['full_text'])
+
+    #with open('donald.json','r') as f:
+    #    tweets = f.readline()
+    #    print(len(tweets))
+
+    #tweets = json.loads(tweets)
+    #for t in tweets:
+    #    tokens = T.tokenize(t['text'])
+    #    mc = train(tokens, mc)
+    #    print(i)
+    #    i = i+1
+
+
+    print(generate(mc, 100, tokens[0], tokens[1]))
