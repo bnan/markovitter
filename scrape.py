@@ -28,6 +28,7 @@ def scrape(username):
     auth_resp = requests.post(auth_url, headers=auth_headers, data=auth_data)
     auth_resp.status_code
     auth_resp.json().keys()
+    print(auth_resp.json())
     access_token = auth_resp.json()['access_token']
 
     search_headers = {
@@ -64,7 +65,7 @@ def scrape(username):
     return full_tweet_data
 
 def normalize(tweets):
-    pass
+    return [tweet for tweet in tweets if "https://" not in tweet["full_text"] and "http://" not in tweet["full_text"]]
 
 def write(tweets):
     with open('trump.txt', 'w') as outfile:
@@ -74,5 +75,5 @@ def write(tweets):
 
 if __name__ == '__main__':
     tweets = scrape('realDonaldTrump')
-    write(tweets)
+    write(normalize(tweets))
 
