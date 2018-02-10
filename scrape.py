@@ -3,6 +3,9 @@ import requests
 import json
 
 
+def normalize(tweets):
+    return [tweet for tweet in tweets if "https://" not in tweet["full_text"] and "http://" not in tweet["full_text"]]
+
 def scrape(username):
     client_key = 'V7R2H69C9kaLPiziXJFJ2o3TG'
     client_secret = 'GptFtTBxTbX5QiMR4EQ99Ioq8VFMhRfgZX5lPurrXx169CO2UE'
@@ -62,18 +65,5 @@ def scrape(username):
 
         search_params["max_id"] = max_id
 
-    return full_tweet_data
-
-def normalize(tweets):
-    return [tweet for tweet in tweets if "https://" not in tweet["full_text"] and "http://" not in tweet["full_text"]]
-
-def write(tweets):
-    with open('trump.txt', 'w') as outfile:
-        texts = [x['full_text'] for x in tweets]
-        for t in texts:
-            outfile.write(t + '\n')
-
-if __name__ == '__main__':
-    tweets = scrape('realDonaldTrump')
-    write(normalize(tweets))
+    return normalize(full_tweet_data)
 

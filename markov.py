@@ -2,14 +2,14 @@ import random
 import copy
 
 
-def train(dataset_file):
+def train(data):
     model = {}
-    for line in dataset_file:    #dataset_file is a txt file with training quotes 
+    for line in data:
         line = line.lower().split()
         for i, word in enumerate(line):
-            if i == len(line)-1:   
+            if i == len(line)-1:
                 model['END'] = model.get('END', []) + [word]
-            else:    
+            else:
                 if i == 0:
                     model['START'] = model.get('START', []) + [word]
                 model[word] = model.get(word, []) + [line[i+1]]
