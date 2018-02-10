@@ -65,7 +65,7 @@ def scrape(username):
     return full_tweet_data
 
 def normalize(tweets):
-    return [tweet for tweet in tweets if "https://" not in tweet["full_text"]]
+    return [tweet for tweet in tweets if "https://" not in tweet["full_text"] and "http://" not in tweet["full_text"]]
 
 def write(tweets):
     with open('trump.txt', 'w') as outfile:
