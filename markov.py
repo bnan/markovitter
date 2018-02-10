@@ -15,9 +15,9 @@ def train(dataset_file):
                 model[word] = model.get(word, []) + [line[i+1]]
     return model
 
-def generate(model, length = 5):
+def generate(model, max_length = 50, min_length = 10):
     generated_data = []
-    for i in range(length):
+    for i in range(max_length):
         if len(generated_data) == 0:
             potential_words = model['START']
         else:
@@ -26,7 +26,7 @@ def generate(model, length = 5):
         next_word = potential_words[random.randint(0, len(potential_words)-1)]
         generated_data.append(next_word)
 
-        if next_word in model['END']:
+        if next_word in model['END'] and len(generated_data) > min_length:
             break
 
     return generated_data
