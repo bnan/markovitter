@@ -1,6 +1,6 @@
 from flask import Flask
 from scrape import scrape
-from markov import train, generate
+from markov2 import train, generate
 from flask_cors import CORS
 import json
 from pymongo import MongoClient
@@ -19,6 +19,7 @@ def new(username):
     if not tweets.find_one({"username" : username }):
         tweets.insert_one({"username" : username, "tweets" : scrape(username)})
     obj = tweets.find_one({"username" : username })
+    print("Odeio o Fábio")
     model = train([e['full_text'] for e in obj["tweets"]])
     text = generate(model)
     return json.dumps({ 'message': ' '.join(text) })
