@@ -19,6 +19,14 @@ services:
             - "1337:1337"
         depends_on:
             - mongo
+    client:
+        image: nginx:alpine
+        volumes:
+            - ./client:/usr/share/nginx/html
+        ports:
+            - "80:80"
+        depends_on:
+            - api
 
 networks:
     default:
