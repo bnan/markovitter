@@ -17,20 +17,23 @@ def train(dataset_file):
 
 def generate(model, min_length = 10, max_length = 30):
     generated_data = []
-    for i in range(max_length):
-        if len(generated_data) == 0:
-            potential_words = model['START']
-        else:
-            potential_words = model[generated_data[-1]]
 
-        next_word = potential_words[random.randint(0, len(potential_words)-1)]
-        generated_data.append(next_word)
+    try: 
+        for i in range(max_length):
+            if len(generated_data) == 0:
+                potential_words = model['START']
+            else:
+                potential_words = model[generated_data[-1]]
 
-        if next_word in model['END'] and len(generated_data) > min_length:
-            break
+            next_word = potential_words[random.randint(0, len(potential_words)-1)]
+            generated_data.append(next_word)
 
-        default = "erroooooor"
-        if model.get(next_word, default) == "erroooooor":
-            break
+            if next_word in model['END'] and len(generated_data) > min_length:
+                break
+
+    except KeyError:
+        return generated_data
 
     return generated_data
+
+print(generate(train(open("trump.txt", "r"))))
