@@ -2,19 +2,17 @@ import random
 import copy
 
 
-def train(data, input_model = {'START':[], 'END':[]}):
-    model = copy.deepcopy(input_model)
-    for i, element in enumerate(data):
-        if i == len(data)-1:
-            model['END'].append(element)
-        else:
-            if i == 1:
-                model['START'].append(element)
-            if element in model:
-                model[element].append(data[i+1])
-            else:
-                model[element] = [data[i+1]]
-
+def train(dataset_file):
+    model = {}
+    for line in dataset_file:    #dataset_file is a txt file with training quotes 
+        line = line.lower().split()
+        for i, word in enumerate(line):
+            if i == len(line)-1:   
+                model['END'] = model.get('END', []) + [word]
+            else:    
+                if i == 0:
+                    model['START'] = model.get('START', []) + [word]
+                model[word] = model.get(word, []) + [line[i+1]]
     return model
 
 def generate(model, length = 5):
