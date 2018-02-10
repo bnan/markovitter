@@ -62,8 +62,7 @@ def scrape(username):
 
         max_id = tweet_data[-1]['id']-1
         print(max_id)
-
         search_params["max_id"] = max_id
 
-    return normalize(full_tweet_data)
+    return full_tweet_data
 

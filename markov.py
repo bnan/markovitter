@@ -36,4 +36,3 @@ def generate(model, min_length = 10, max_length = 30):
 
     return generated_data
 
-print(generate(train(open("trump.txt", "r"))))
