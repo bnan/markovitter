@@ -6,11 +6,17 @@ import collections
 from tokenizer import tokenizer
 
 
-def train(data, input_model = collections.defaultdict(dict)):
-    model = input_model
+def train(input_text):
+    T = tokenizer.TweetTokenizer()
+    mc = collections.defaultdict(dict)
+    for i in input_text:
+        tokens = T.tokenize(i)
+        mc = add_to_model(tokens, mc)
+    return mc
+
+def add_to_model(data, model):
     data.append('END')
     for i, element in enumerate(data):
-        #print(str(element))
         if i < 2:
             continue
         try:
@@ -34,30 +40,33 @@ def generate(model, length = 5, fword = "I", sword = "am"):
         if next_word == 'END':
             break
 
+    generated_data.pop(-1)
     return generated_data
 
 
 if __name__ == '__main__':
-    T = tokenizer.TweetTokenizer()
-    i = 0;
-    mc = train([])
-    tweets = scrape.scrape("BarackObama")
-
-    for t in tweets:
-        tokens = T.tokenize(t['full_text'])
-        mc = train(tokens, mc)
-        print(i)
-        i = i+1
-
-    with open('data.txt', 'w') as outfile:
-        json.dump(mc, outfile)
-
-    with open('data.txt', 'r') as f:
-        mc = json.load(f)
-
-    ri = random.randint(0, len(tweets)-1)
-    tokens = T.tokenize(tweets[ri]['full_text'])
-
+    print("Just for tests")
+#    i = 0;
+#    mc = train([])
+#    tweets = scrape.scrape("BarackObama")
+#
+#    l = []
+#    for t in tweets:
+#        l.append(t['full_text'])
+#        print(i)
+#        i = i+1
+#
+#    mc = train(l)
+#
+#    with open('data.txt', 'w') as outfile:
+#        json.dump(mc, outfile)
+#
+#    with open('data.txt', 'r') as f:
+#        mc = json.load(f)
+#
+#    ri = random.randint(0, len(tweets)-1)
+#    tokens = T.tokenize(tweets[ri]['full_text'])
+#
     #with open('donald.json','r') as f:
     #    tweets = f.readline()
     #    print(len(tweets))

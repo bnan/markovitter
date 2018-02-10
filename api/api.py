@@ -1,6 +1,6 @@
 from flask import Flask
 from scrape import scrape
-from markov import train, generate
+from markov2 import train, generate
 from flask_cors import CORS
 import json
 from pymongo import MongoClient
