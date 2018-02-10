@@ -18,7 +18,10 @@ async function handleGenerate() {
 }
 
 function main() {
-    document.getElementById('generate').addEventListener('click', () => handleGenerate())
+    document.getElementById('generate').addEventListener('click', () => {
+        handleGenerate()
+        document.getElementById('result').textContent = 'Loading...'
+    })
 }
 
 main()
