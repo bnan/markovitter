@@ -46,6 +46,7 @@ function main() {
         name.style.display = 'none'
         avatar.style.display = 'none'
         document.getElementById('message').textContent = 'Loading...'
+        document.getElementById('result').style.display = 'flex'
     })
 }
 
