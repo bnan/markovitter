@@ -15,6 +15,7 @@ def train(input_text):
     return mc
 
 def add_to_model(data, model):
+    data.insert(0,"START")
     data.append('END')
     for i, element in enumerate(data):
         if i < 2:
@@ -25,22 +26,30 @@ def add_to_model(data, model):
             model[data[i-2]][data[i-1]] = [element]
     return model
 
-def generate(model, length = 5, fword = "I", sword = "am"):
+def generate(model, length = 10):
     generated_data = []
-    generated_data.append(fword)
-    generated_data.append(sword)
-    for i in range(length):
+    i = 0
+    next_word = ''
+    while next_word != 'END':
+        if i==0:
+            fword = "START"
+            sword = list(model["START"].keys())[random.randint(0, len(list(model["START"].keys()))-1)]
+            generated_data.append(sword)
+
         potential_words = model[fword][sword]
 
-        next_word = potential_words[random.randint(0, len(potential_words)-1)]
+        if i > length and 'END' in potential_words:
+            next_word = 'END'
+        else:
+            next_word = potential_words[random.randint(0, len(potential_words)-1)]
+
         generated_data.append(next_word)
 
         fword = sword
         sword = next_word
-        if next_word == 'END':
-            break
 
-    generated_data.pop(-1)
+        i = i+1
+
     return generated_data
 
 
