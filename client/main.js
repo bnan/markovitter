@@ -1,7 +1,7 @@
-const API_URL = 'http://localhost:1337/new/'
+const API_URL = 'http://localhost:1337/new'
 
-async function fetchGeneratedTweet(username) {
-    let response = await fetch(API_URL + username)
+async function fetchGeneratedTweet(username, include) {
+    let response = await fetch(API_URL + '/' + username + '/' + include)
     if (response.ok) {
         let data = await response.json()
         if (!data.success) {
@@ -16,12 +16,13 @@ async function fetchGeneratedTweet(username) {
 async function handleGenerate(e) {
     e.preventDefault()
     const username = document.getElementById('username').value
+    const include = document.getElementById('include').value
     const message = document.getElementById('message')
     const name = document.getElementById('name')
     const avatar = document.getElementById('avatar')
 
     try {
-        let tweet = await fetchGeneratedTweet(username)
+        let tweet = await fetchGeneratedTweet(username, include)
         console.log(tweet)
 
         message.textContent = tweet.message

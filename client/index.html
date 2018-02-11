@@ -14,13 +14,15 @@
                     <h1>Markovitter</h1>
                     <p>Generate a quote for an arbitrary Twitter account via a trained Markov Chain.</p>
                     <form class="form-inline">
-                        <div class="form-group mr-3">
+                        <div class="form-group mr-3 ml-2">
                             <div class="input-group mr-sm-2">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">@</div>
                                 </div>
                                 <input type="text" class="form-control" id="username" value="realDonaldTrump">
                             </div>
+                            including the string
+                            <input type="text" class="form-control ml-2" id="include" placeholder="">
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg" id="generate">Generate</button>
                     </form>

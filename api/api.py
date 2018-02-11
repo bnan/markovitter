@@ -12,15 +12,19 @@ client = MongoClient('mongo', 27017)
 db = client.test_database
 tweets = db.tweets
 
-@app.route('/new/<username>', methods=['GET'])
-def new(username):
+@app.route('/new/<username>/', defaults={'include': None})
+@app.route('/new/<username>/<include>', methods=['GET'])
+def new(username, include):
     try:
         if not tweets.find_one({"username" : username }):
             tweets.insert_one({"username" : username, "tweets" : scrape(username)})
         obj = tweets.find_one({"username" : username })
 
-        model = train([e['full_text'] for e in obj["tweets"]])
-        text = generate(model)
+        model, rmodel = train([e['full_text'] for e in obj["tweets"]])
+        if include:
+            text = generate_with(model, rmodel, include)
+        else:
+            text = generate(model)
         return json.dumps({
             'success': True,
             'message': ' '.join(text),

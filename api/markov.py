@@ -86,7 +86,7 @@ def generate_with(model, rmodel, word, length = 10):
 
         i = i+1
 
-    return generated_data
+    return generated_data[1:-1]
 
 
 def generate(model, length = 10):
