@@ -18,12 +18,20 @@ def new(username):
         if not tweets.find_one({"username" : username }):
             tweets.insert_one({"username" : username, "tweets" : scrape(username)})
         obj = tweets.find_one({"username" : username })
-        model,rmodel = train([e['full_text'] for e in obj["tweets"]])
-        text = generate_with(model, rmodel, "terrorism")
-        return json.dumps({ 'message': ' '.join(text) })
+
+        model = train([e['full_text'] for e in obj["tweets"]])
+        text = generate(model)
+        return json.dumps({
+            'success': True,
+            'message': ' '.join(text),
+            'name': obj['tweets'][0]['user']['name'],
+            'avatar': obj['tweets'][0]['user']['profile_image_url_https']
+        })
     except:
-        raise
-        return json.dumps({ 'message': 'Oops! An error occurred.' })
+        return json.dumps({
+            'success': False,
+            'message': 'Oops! An error occurred.',
+        })
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1337)
