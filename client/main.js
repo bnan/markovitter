@@ -10,7 +10,8 @@ async function fetchGeneratedTweet(username) {
     }
 }
 
-async function handleGenerate() {
+async function handleGenerate(e) {
+    e.preventDefault()
     const username = document.getElementById('username').value
     let message = await fetchGeneratedTweet(username)
     console.log(message)
@@ -18,8 +19,8 @@ async function handleGenerate() {
 }
 
 function main() {
-    document.getElementById('generate').addEventListener('click', () => {
-        handleGenerate()
+    document.getElementById('generate').addEventListener('click', (e) => {
+        handleGenerate(e)
         document.getElementById('result').textContent = 'Loading...'
     })
 }
