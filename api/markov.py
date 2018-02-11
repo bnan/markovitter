@@ -1,38 +1,54 @@
 import random
 import copy
+import scrape
+import json
+import collections
+from tokenizer import tokenizer
 
 
-def train(dataset_file):
-    model = {}
-    for line in dataset_file:    #dataset_file is a txt file with training quotes 
-        line = line.lower().split()
-        for i, word in enumerate(line):
-            if i == len(line)-1:   
-                model['END'] = model.get('END', []) + [word]
-            else:    
-                if i == 0:
-                    model['START'] = model.get('START', []) + [word]
-                model[word] = model.get(word, []) + [line[i+1]]
+def train(input_text):
+    T = tokenizer.TweetTokenizer()
+    mc = collections.defaultdict(dict)
+    for i in input_text:
+        tokens = T.tokenize(i)
+        mc = add_to_model(tokens, mc)
+    return mc
+
+def add_to_model(data, model):
+    data.insert(0,"START")
+    data.append('END')
+    for i, element in enumerate(data):
+        if i < 2:
+            continue
+        try:
+            model[data[i-2]][data[i-1]].append(element)
+        except KeyError:
+            model[data[i-2]][data[i-1]] = [element]
     return model
 
-def generate(model, min_length = 10, max_length = 30):
+def generate(model, length = 10):
     generated_data = []
+    i = 0
+    next_word = ''
+    while next_word != 'END':
+        if i==0:
+            fword = "START"
+            sword = list(model["START"].keys())[random.randint(0, len(list(model["START"].keys()))-1)]
+            generated_data.append(sword)
 
-    try: 
-        for i in range(max_length):
-            if len(generated_data) == 0:
-                potential_words = model['START']
-            else:
-                potential_words = model[generated_data[-1]]
+        potential_words = model[fword][sword]
 
+        if i > length and 'END' in potential_words:
+            next_word = 'END'
+        else:
             next_word = potential_words[random.randint(0, len(potential_words)-1)]
-            generated_data.append(next_word)
 
-            if next_word in model['END'] and len(generated_data) > min_length:
-                break
+        generated_data.append(next_word)
 
-    except KeyError:
-        return generated_data
+        fword = sword
+        sword = next_word
+
+        i = i+1
 
     return generated_data
 
