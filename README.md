@@ -1,4 +1,6 @@
-# trump
+# markovitter
+
+Generate quotes for an arbitrary Twitter account via a trained Markov Chain.
 
 ## Development
 
