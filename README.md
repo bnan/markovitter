@@ -2,6 +2,8 @@
 
 Generate quotes for an arbitrary Twitter account via a trained Markov Chain.
 
+![markovitter](https://i.imgur.com/qHJikWJ.png)
+
 ## Development
 
 1. Orchestrate the app containers
