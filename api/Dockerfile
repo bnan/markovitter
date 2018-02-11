@@ -1,4 +1,5 @@
 FROM python:3.6
+ENV PYTHONUNBUFFERED 0
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 ADD requirements.txt /usr/src/app
