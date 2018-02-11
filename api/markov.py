@@ -50,5 +50,5 @@ def generate(model, length = 10):
 
         i = i+1
 
-    return generated_data
+    return generated_data[:-1]
 
